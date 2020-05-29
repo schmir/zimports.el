@@ -1,0 +1,75 @@
+(require 'cl-lib)
+(require 'projectile)
+
+(defgroup zimports nil
+  "Reformat Python code with \"zimports\"."
+  :group 'python)
+
+(defcustom zimports-executable "zimports"
+  "Name of the executable to run."
+  :type 'string)
+
+(defun zimports-call-bin (input-buffer output-buffer error-buffer)
+  "Call process zimports-executable.
+
+Send INPUT-BUFFER content to the process stdin.  Saving the
+output to OUTPUT-BUFFER.  Saving process stderr to ERROR-BUFFER.
+Return zimports process the exit code."
+  (with-current-buffer input-buffer
+    (let ((default-directory (projectile-project-root)))
+      (let ((process (make-process :name "zimports"
+                                  :command `(,zimports-executable ,@(zimports-call-args))
+                                  :buffer output-buffer
+                                  :stderr error-buffer
+                                  :noquery t
+                                  :sentinel (lambda (process event)))))
+      (set-process-query-on-exit-flag (get-buffer-process error-buffer) nil)
+      (set-process-sentinel (get-buffer-process error-buffer) (lambda (process event)))
+      (save-restriction
+          (widen)
+          (process-send-region process (point-min) (point-max)))
+      (process-send-eof process)
+      (accept-process-output process nil nil t)
+      (while (process-live-p process)
+          (accept-process-output process nil nil t))
+      (process-exit-status process)))))
+
+(defun zimports-call-args ()
+  "Build zimports process call arguments."
+  (append '("--stdout" "/dev/stdin")))
+
+;;;###autoload
+(defun zimports-buffer (&optional display)
+  "Try to zimports the current buffer.
+
+Show zimports output, if zimports exit abnormally and DISPLAY is t."
+  (interactive (list t))
+  (let* ((original-buffer (current-buffer))
+         (tmpbuf (get-buffer-create "*zimports*"))
+         (errbuf (get-buffer-create "*zimports-error*")))
+    ;; This buffer can be left after previous zimports invocation.  It
+    ;; can contain error message of the previous run.
+    (dolist (buf (list tmpbuf errbuf))
+      (with-current-buffer buf
+        (erase-buffer)))
+    (condition-case err
+        (if (and (not (zerop (zimports-call-bin original-buffer tmpbuf errbuf))) nil)
+            (error "Process zimports failed, see %s buffer for details" (buffer-name errbuf))
+          (unless (or (eq (buffer-size tmpbuf) 0) (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
+            (with-current-buffer original-buffer (replace-buffer-contents tmpbuf)))
+          (mapc 'kill-buffer (list tmpbuf errbuf)))
+      (error (message "%s" (error-message-string err))
+             (when display
+               (pop-to-buffer errbuf))))))
+
+;;;###autoload
+(define-minor-mode zimports-mode
+  "Automatically run zimports before saving."
+  :lighter " Reorder"
+  (if zimports-mode
+      (add-hook 'before-save-hook 'zimports-buffer nil t)
+    (remove-hook 'before-save-hook 'zimports-buffer t)))
+
+(provide 'zimports)
+
+;;; zimports.el ends here
