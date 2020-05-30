@@ -41,7 +41,8 @@ Send INPUT-BUFFER content to the process stdin.  Saving the
 output to OUTPUT-BUFFER.  Saving process stderr to ERROR-BUFFER.
 Return zimports process the exit code."
   (with-current-buffer input-buffer
-    (let ((default-directory (projectile-project-root)))
+    (let ((default-directory (or (projectile-project-root)
+                                 default-directory)))
       (let ((process (make-process :name "zimports"
                                   :command `(,zimports-executable ,@(zimports-call-args))
                                   :buffer output-buffer
