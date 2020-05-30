@@ -79,7 +79,7 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
       (with-current-buffer buf
         (erase-buffer)))
     (condition-case err
-        (if (and (not (zerop (zimports-call-bin original-buffer tmpbuf errbuf))) nil)
+        (if (not (zerop (zimports-call-bin original-buffer tmpbuf errbuf)))
             (error "Process zimports failed, see %s buffer for details" (buffer-name errbuf))
           (unless (or (eq (buffer-size tmpbuf) 0) (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
             (with-current-buffer original-buffer (replace-buffer-contents tmpbuf)))
