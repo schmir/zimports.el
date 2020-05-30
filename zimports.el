@@ -44,21 +44,21 @@ Return zimports process the exit code."
     (let ((default-directory (or (projectile-project-root)
                                  default-directory)))
       (let ((process (make-process :name "zimports"
-                                  :command `(,zimports-executable ,@(zimports-call-args))
-                                  :buffer output-buffer
-                                  :stderr error-buffer
-                                  :noquery t
-                                  :sentinel (lambda (process event)))))
-      (set-process-query-on-exit-flag (get-buffer-process error-buffer) nil)
-      (set-process-sentinel (get-buffer-process error-buffer) (lambda (process event)))
-      (save-restriction
+                                   :command `(,zimports-executable ,@(zimports-call-args))
+                                   :buffer output-buffer
+                                   :stderr error-buffer
+                                   :noquery t
+                                   :sentinel (lambda (process event)))))
+        (set-process-query-on-exit-flag (get-buffer-process error-buffer) nil)
+        (set-process-sentinel (get-buffer-process error-buffer) (lambda (process event)))
+        (save-restriction
           (widen)
           (process-send-region process (point-min) (point-max)))
-      (process-send-eof process)
-      (accept-process-output process nil nil t)
-      (while (process-live-p process)
+        (process-send-eof process)
+        (accept-process-output process nil nil t)
+        (while (process-live-p process)
           (accept-process-output process nil nil t))
-      (process-exit-status process)))))
+        (process-exit-status process)))))
 
 (defun zimports-call-args ()
   "Build zimports process call arguments."
@@ -81,7 +81,8 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
     (condition-case err
         (if (not (zerop (zimports-call-bin original-buffer tmpbuf errbuf)))
             (error "Process zimports failed, see %s buffer for details" (buffer-name errbuf))
-          (unless (or (eq (buffer-size tmpbuf) 0) (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
+          (unless (or (eq (buffer-size tmpbuf) 0)
+                      (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
             (with-current-buffer original-buffer (replace-buffer-contents tmpbuf)))
           (mapc 'kill-buffer (list tmpbuf errbuf)))
       (error (message "%s" (error-message-string err))
