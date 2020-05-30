@@ -2,7 +2,7 @@
 
 ;; URL: https://github.com/schmir/zimports.el
 ;; Version: 0
-;; Package-Requires: ((emacs "26.1"))
+;; Package-Requires: ((emacs "26.1") (projectile "2.1.0"))
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published
