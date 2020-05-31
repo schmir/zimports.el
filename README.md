@@ -10,7 +10,7 @@ Enable `zimports-mode` to sort imports everytime you save the buffer.
 
 ## Turn on zimports with dir-locals
 
-You can turn on `zimport-mode` by creating a `.dir-locals.el` file
+You can turn on `zimports-mode` by creating a `.dir-locals.el` file
 with the following contents:
 
 ```elisp
