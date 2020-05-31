@@ -94,8 +94,8 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
   "Automatically run zimports before saving."
   :lighter " Reorder"
   (if zimports-mode
-      (add-hook 'before-save-hook 'zimports-buffer nil t)
-    (remove-hook 'before-save-hook 'zimports-buffer t)))
+      (add-hook 'before-save-hook #'zimports-buffer nil t)
+    (remove-hook 'before-save-hook #'zimports-buffer t)))
 
 (provide 'zimports)
 
