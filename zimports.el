@@ -92,7 +92,7 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
 ;;;###autoload
 (define-minor-mode zimports-mode
   "Automatically run zimports before saving."
-  :lighter " Reorder"
+  :lighter " zimports"
   (if zimports-mode
       (add-hook 'before-save-hook #'zimports-buffer nil t)
     (remove-hook 'before-save-hook #'zimports-buffer t)))
