@@ -11,4 +11,7 @@ install: .install-$(EMACS)
 lint: install
 	cask exec emacs -Q --batch -l elisp-lint.el -f elisp-lint-files-batch  zimports.el
 
+test: install
+	$(CASK) exec buttercup -L .
+
 .PHONY: install lint

@@ -5,24 +5,32 @@ commands:
     steps:
       - checkout
       - run: emacs --version
+      - run: |
+          apt update
+          apt install -y python3-pip
+          pip3 install zimports
+
   install:
     steps:
       - run: make install
   lint:
     steps:
       - run: make lint
-
+  test:
+    steps:
+      - run: make test
 jobs:
-  lint:
+  test:
     docker:
       - image: silex/emacs:26-dev
     steps:
       - setup
       - install
       - lint
+      - test
 
 workflows:
   version: 2
   default:
     jobs:
-      - lint
+      - test
