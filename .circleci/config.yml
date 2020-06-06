@@ -5,10 +5,6 @@ commands:
     steps:
       - checkout
       - run: emacs --version
-      - run: |
-          apt update
-          apt install -y python3-pip
-          pip3 install zimports
 
   install:
     steps:
@@ -22,7 +18,7 @@ commands:
 jobs:
   test:
     docker:
-      - image: silex/emacs:26-dev
+      - image: schmir/emacs-zimports-test
     steps:
       - setup
       - install
