@@ -34,7 +34,7 @@
   "Name of the executable to run."
   :type 'string)
 
-(defun zimports-call-bin (input-buffer output-buffer error-buffer)
+(defun zimports--call-bin (input-buffer output-buffer error-buffer)
   "Call process zimports-executable.
 
 Send INPUT-BUFFER content to the process stdin.  Saving the
@@ -79,7 +79,7 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
       (with-current-buffer buf
         (erase-buffer)))
     (condition-case err
-        (if (not (zerop (zimports-call-bin original-buffer tmpbuf errbuf)))
+        (if (not (zerop (zimports--call-bin original-buffer tmpbuf errbuf)))
             (error "Process zimports failed, see %s buffer for details" (buffer-name errbuf))
           (unless (or (eq (buffer-size tmpbuf) 0)
                       (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
