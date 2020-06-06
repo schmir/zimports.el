@@ -84,7 +84,7 @@ Show zimports output, if zimports exit abnormally and DISPLAY is t."
           (unless (or (eq (buffer-size tmpbuf) 0)
                       (eq (compare-buffer-substrings tmpbuf nil nil original-buffer nil nil) 0))
             (with-current-buffer original-buffer (replace-buffer-contents tmpbuf)))
-          (mapc 'kill-buffer (list tmpbuf errbuf)))
+          (mapc #'kill-buffer (list tmpbuf errbuf)))
       (error (message "%s" (error-message-string err))
              (when display
                (pop-to-buffer errbuf))))))
