@@ -14,4 +14,10 @@ lint: install
 test: install
 	$(CASK) exec buttercup -L .
 
-.PHONY: install lint
+build-docker-image:
+	docker build . -t schmir/emacs-zimports-test
+
+upload-docker-image:
+	docker push schmir/emacs-zimports-test:latest
+
+.PHONY: install lint build-docker-image upload-docker-image
