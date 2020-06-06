@@ -1,6 +1,8 @@
 export EMACS ?= emacs
 CASK = cask
 
+default: install lint test
+
 install: .install-$(EMACS)
 
 .install-$(EMACS):
@@ -20,4 +22,4 @@ build-docker-image:
 upload-docker-image:
 	docker push schmir/emacs-zimports-test:latest
 
-.PHONY: install lint build-docker-image upload-docker-image
+.PHONY: default install lint build-docker-image upload-docker-image
