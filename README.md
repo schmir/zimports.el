@@ -6,7 +6,7 @@ package to sort your python imports.
 ## Usage
 
 Call `zimports-buffer` to sort imports in the current python buffer.
-Enable `zimports-mode` to sort imports everytime you save the buffer.
+Enable `zimports-mode` to sort imports every time you save the buffer.
 
 ## Turn on zimports with dir-locals
 

@@ -1,4 +1,4 @@
-;;; zimports.el --- Reformat python imports with zimports
+;;; zimports.el --- Reformat python imports with zimports -*- lexical-binding: t -*-
 
 ;; URL: https://github.com/schmir/zimports.el
 ;; Version: 0
@@ -48,9 +48,9 @@ Return zimports process the exit code."
                                    :buffer output-buffer
                                    :stderr error-buffer
                                    :noquery t
-                                   :sentinel (lambda (process event)))))
+                                   :sentinel (lambda (_process _event)))))
         (set-process-query-on-exit-flag (get-buffer-process error-buffer) nil)
-        (set-process-sentinel (get-buffer-process error-buffer) (lambda (process event)))
+        (set-process-sentinel (get-buffer-process error-buffer) (lambda (_process _event)))
         (save-restriction
           (widen)
           (process-send-region process (point-min) (point-max)))
