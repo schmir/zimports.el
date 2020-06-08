@@ -1,7 +1,15 @@
+[![MELPA](https://melpa.org/packages/zimports-badge.svg)](https://melpa.org/#/zimports)
+
 # zimports
 
 Use the python [zimports](https://github.com/sqlalchemyorg/zimports)
 package to sort your python imports.
+
+## Installation
+
+zimports is available via [melpa](https://melpa.org/#/zimports). Make
+sure the python [zimports](https://github.com/sqlalchemyorg/zimports)
+executable is on `PATH`.
 
 ## Usage
 
