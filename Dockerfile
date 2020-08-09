@@ -1,4 +1,13 @@
-from cimg/base:stable
+# Build a docker image used for testing zimports.el on CircleCI
+# Available from https://hub.docker.com/repository/docker/schmir/emacs-zimports-test
+#
+# Build with:
+#   docker build --no-cache -t schmir/emacs-zimports-test .
+# Upload with:
+#   docker push schmir/emacs-zimports-test
+#
+
+FROM cimg/base:stable
 RUN sudo add-apt-repository ppa:kelleyk/emacs \
         && sudo apt-get update \
         && sudo apt-get install -y python3-pip emacs26-nox \
