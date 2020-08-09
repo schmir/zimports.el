@@ -62,7 +62,7 @@ Return zimports process the exit code."
 
 (defun zimports-call-args ()
   "Build zimports process call arguments."
-  (append '("--stdout" "/dev/stdin")))
+  (append '("-")))
 
 ;;;###autoload
 (defun zimports-buffer (&optional display)
