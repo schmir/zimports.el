@@ -34,6 +34,11 @@
   "Name of the executable to run."
   :type 'string)
 
+(defcustom zimports-args
+  nil
+  "Additional command line arguments to pass to zimports"
+  :type '(repeat string))
+
 (defun zimports--call-bin (input-buffer output-buffer error-buffer)
   "Call process zimports-executable.
 
@@ -62,7 +67,7 @@ Return zimports process the exit code."
 
 (defun zimports-call-args ()
   "Build zimports process call arguments."
-  (append '("-")))
+  (append zimports-args '("-")))
 
 ;;;###autoload
 (defun zimports-buffer (&optional display)
