@@ -36,7 +36,7 @@
 
 (defcustom zimports-args
   nil
-  "Additional command line arguments to pass to zimports"
+  "Additional command line arguments to pass to zimports."
   :type '(repeat string))
 
 (defun zimports--call-bin (input-buffer output-buffer error-buffer)
