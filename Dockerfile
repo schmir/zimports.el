@@ -8,9 +8,8 @@
 #
 
 FROM cimg/base:stable
-RUN sudo add-apt-repository ppa:kelleyk/emacs \
-        && sudo apt-get update \
-        && sudo apt-get install -y python3-pip emacs26-nox \
+RUN sudo apt-get update \
+        && sudo apt-get install -y python3-pip emacs-nox \
         && sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 100 \
         && sudo rm -rf /var/lib/apt/lists/*
 RUN pip3 install --user zimports
